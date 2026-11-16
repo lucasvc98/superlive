@@ -572,38 +572,127 @@ html, body {
   to { transform: rotate(360deg); }
 }
 
-/* Leads shortcut */
-.leads-shortcut {
-  margin-top: 10px;
-  opacity: 0.35;
-  transition: opacity 0.25s ease;
+/* ==========================================================================
+   Social Proof Toast Notifications
+   ========================================================================== */
+.social-proof-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: min(92vw, 360px);
+  padding: 11px 16px;
+  background: rgba(14, 16, 23, 0.94);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 100, 0, 0.38);
+  border-radius: 14px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.88),
+    0 0 20px rgba(255, 90, 0, 0.2);
+  color: #ffffff;
+  transform: translateY(120%) scale(0.95);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, visibility 0.45s ease;
+  pointer-events: none;
 }
 
-.leads-shortcut:hover {
-  opacity: 0.9;
+.social-proof-toast.is-visible {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
-.link-leads {
+.toast-glow {
+  position: absolute;
+  top: -20px;
+  left: 10px;
+  width: 100px;
+  height: 50px;
+  background: radial-gradient(circle, rgba(255, 100, 0, 0.25) 0%, transparent 70%);
+  filter: blur(15px);
+  pointer-events: none;
+}
+
+.toast-icon-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff7e00, #e04000);
+  box-shadow: 0 0 12px rgba(255, 95, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.toast-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.toast-pulse-dot {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 6px #22c55e;
+  animation: pulseGreen 1.5s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+  70% { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+.toast-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.toast-text {
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: #e5e7eb;
+}
+
+.toast-text strong {
+  color: #ff852e;
+  font-weight: 700;
+}
+
+.toast-time {
+  font-size: 0.7rem;
+  color: #8b92a4;
+}
+
+.toast-close {
   background: transparent;
   border: none;
-  color: #72788c;
-  font-size: 0.72rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+  color: #73798c;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 4px;
+  margin-left: auto;
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
   transition: color 0.2s ease;
 }
 
-.link-leads:hover {
-  color: #ff7d22;
-}
-
-.leads-icon {
-  width: 13px;
-  height: 13px;
+.toast-close:hover {
+  color: #ff6000;
 }
 
 /* ==========================================================================
@@ -921,6 +1010,15 @@ html, body {
   .input-wrapper input {
     font-size: 16px;
   }
+
+  /* Position social proof toast cleanly on mobile */
+  .social-proof-toast {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    max-width: calc(100vw - 24px);
+    padding: 10px 14px;
+  }
 }
 
 /* Large Screens (preserve exact layout from reference) */
@@ -1083,18 +1181,29 @@ html, body {
       </form>
 
       <!-- Discreet Leads Modal Trigger (bottom edge) -->
-      <div class="leads-shortcut">
-        <button type="button" id="openLeadsBtn" class="link-leads" title="Ver Leads Cadastrados">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="leads-icon">
-            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z"/>
-          </svg>
-          <span id="leadsCounter">0</span> inscritos
-        </button>
-      </div>
+      
 
     </div>
   </main>
+
+  
+  <!-- Social Proof Toast Notification (Interval 15s) -->
+  <div id="socialProofToast" class="social-proof-toast" aria-live="polite">
+    <div class="toast-glow"></div>
+    <div class="toast-icon-wrapper">
+      <span class="toast-pulse-dot"></span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="toast-icon">
+        <path d="M20 6L9 17l-5-5"/>
+      </svg>
+    </div>
+    <div class="toast-content">
+      <p class="toast-text" id="toastMessage">
+        <strong>7 pessoas</strong> acabaram de concluir sua participação!
+      </p>
+      <span class="toast-time" id="toastTime">agora mesmo</span>
+    </div>
+    <button type="button" class="toast-close" id="toastCloseBtn" aria-label="Fechar notificação">&times;</button>
+  </div>
 
   <!-- Success Modal -->
   <div id="successModal" class="modal-backdrop" aria-hidden="true">
@@ -1429,23 +1538,96 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === successModal) closeModal(successModal);
   });
 
-  // Leads Modal events
-  openLeadsBtn.addEventListener('click', () => {
-    renderLeadsTable();
-    openModal(leadsModal);
-  });
-  closeLeadsBtn.addEventListener('click', () => closeModal(leadsModal));
-  leadsModal.addEventListener('click', (e) => {
-    if (e.target === leadsModal) closeModal(leadsModal);
-  });
+  // Leads Modal events (admin shortcut: Shift + L)
+  if (openLeadsBtn) {
+    openLeadsBtn.addEventListener('click', () => {
+      renderLeadsTable();
+      openModal(leadsModal);
+    });
+  }
+  if (closeLeadsBtn) closeLeadsBtn.addEventListener('click', () => closeModal(leadsModal));
+  if (leadsModal) {
+    leadsModal.addEventListener('click', (e) => {
+      if (e.target === leadsModal) closeModal(leadsModal);
+    });
+  }
 
-  // Keyboard escape
+  // Keyboard escape & admin shortcut (Shift + L)
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeModal(successModal);
       closeModal(leadsModal);
     }
+    if (e.shiftKey && (e.key === 'L' || e.key === 'l')) {
+      renderLeadsTable();
+      openModal(leadsModal);
+    }
   });
+
+  // ==========================================
+  // Social Proof Toast Popups (Interval: 15s)
+  // ==========================================
+  const toast = document.getElementById('socialProofToast');
+  const toastMessage = document.getElementById('toastMessage');
+  const toastTime = document.getElementById('toastTime');
+  const toastCloseBtn = document.getElementById('toastCloseBtn');
+
+  const numbersList = [7, 13, 9, 14, 8, 16, 11, 15, 12, 18, 6, 21];
+  const templates = [
+    '<strong>{N} pessoas</strong> acabaram de concluir sua participação!',
+    '<strong>{N} pessoas</strong> acabam de concluir sua participação!',
+    '<strong>{N} traders</strong> acabaram de garantir vaga no sorteio!',
+    '<strong>{N} pessoas</strong> acabaram de se cadastrar para a Superlive!'
+  ];
+  const timesList = ['agora mesmo', 'há 12 segundos', 'há 28 segundos', 'há 45 segundos'];
+
+  let lastNumber = null;
+  let toastHideTimer = null;
+
+  function getRandomItem(arr, exclude) {
+    let item;
+    do {
+      item = arr[Math.floor(Math.random() * arr.length)];
+    } while (item === exclude && arr.length > 1);
+    return item;
+  }
+
+  function showSocialProof() {
+    if (!toast || !toastMessage) return;
+
+    const num = getRandomItem(numbersList, lastNumber);
+    lastNumber = num;
+
+    const template = getRandomItem(templates);
+    const timeText = getRandomItem(timesList);
+
+    toastMessage.innerHTML = template.replace('{N}', num);
+    if (toastTime) toastTime.textContent = timeText;
+
+    toast.classList.add('is-visible');
+
+    // Fica visível por 5 segundos
+    if (toastHideTimer) clearTimeout(toastHideTimer);
+    toastHideTimer = setTimeout(() => {
+      hideSocialProof();
+    }, 5000);
+  }
+
+  function hideSocialProof() {
+    if (toast) toast.classList.remove('is-visible');
+  }
+
+  if (toastCloseBtn) {
+    toastCloseBtn.addEventListener('click', hideSocialProof);
+  }
+
+  // Primeiro popup aos 3 segundos, e depois exatamente a cada 15 segundos
+  setTimeout(() => {
+    showSocialProof();
+    setInterval(() => {
+      showSocialProof();
+    }, 15000);
+  }, 3000);
 
   // ==========================================
   // Leads Management Table & Export

@@ -559,38 +559,127 @@ html, body {
   to { transform: rotate(360deg); }
 }
 
-/* Leads shortcut */
-.leads-shortcut {
-  margin-top: 10px;
-  opacity: 0.35;
-  transition: opacity 0.25s ease;
+/* ==========================================================================
+   Social Proof Toast Notifications
+   ========================================================================== */
+.social-proof-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: min(92vw, 360px);
+  padding: 11px 16px;
+  background: rgba(14, 16, 23, 0.94);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 100, 0, 0.38);
+  border-radius: 14px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.88),
+    0 0 20px rgba(255, 90, 0, 0.2);
+  color: #ffffff;
+  transform: translateY(120%) scale(0.95);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, visibility 0.45s ease;
+  pointer-events: none;
 }
 
-.leads-shortcut:hover {
-  opacity: 0.9;
+.social-proof-toast.is-visible {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
-.link-leads {
+.toast-glow {
+  position: absolute;
+  top: -20px;
+  left: 10px;
+  width: 100px;
+  height: 50px;
+  background: radial-gradient(circle, rgba(255, 100, 0, 0.25) 0%, transparent 70%);
+  filter: blur(15px);
+  pointer-events: none;
+}
+
+.toast-icon-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff7e00, #e04000);
+  box-shadow: 0 0 12px rgba(255, 95, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.toast-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.toast-pulse-dot {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 6px #22c55e;
+  animation: pulseGreen 1.5s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+  70% { transform: scale(1.15); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+.toast-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.toast-text {
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: #e5e7eb;
+}
+
+.toast-text strong {
+  color: #ff852e;
+  font-weight: 700;
+}
+
+.toast-time {
+  font-size: 0.7rem;
+  color: #8b92a4;
+}
+
+.toast-close {
   background: transparent;
   border: none;
-  color: #72788c;
-  font-size: 0.72rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+  color: #73798c;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 4px;
+  margin-left: auto;
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
   transition: color 0.2s ease;
 }
 
-.link-leads:hover {
-  color: #ff7d22;
-}
-
-.leads-icon {
-  width: 13px;
-  height: 13px;
+.toast-close:hover {
+  color: #ff6000;
 }
 
 /* ==========================================================================
@@ -907,6 +996,15 @@ html, body {
   /* Keep inputs easy to tap without zoom triggering on iOS */
   .input-wrapper input {
     font-size: 16px;
+  }
+
+  /* Position social proof toast cleanly on mobile */
+  .social-proof-toast {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    max-width: calc(100vw - 24px);
+    padding: 10px 14px;
   }
 }
 

@@ -265,23 +265,96 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === successModal) closeModal(successModal);
   });
 
-  // Leads Modal events
-  openLeadsBtn.addEventListener('click', () => {
-    renderLeadsTable();
-    openModal(leadsModal);
-  });
-  closeLeadsBtn.addEventListener('click', () => closeModal(leadsModal));
-  leadsModal.addEventListener('click', (e) => {
-    if (e.target === leadsModal) closeModal(leadsModal);
-  });
+  // Leads Modal events (admin shortcut: Shift + L)
+  if (openLeadsBtn) {
+    openLeadsBtn.addEventListener('click', () => {
+      renderLeadsTable();
+      openModal(leadsModal);
+    });
+  }
+  if (closeLeadsBtn) closeLeadsBtn.addEventListener('click', () => closeModal(leadsModal));
+  if (leadsModal) {
+    leadsModal.addEventListener('click', (e) => {
+      if (e.target === leadsModal) closeModal(leadsModal);
+    });
+  }
 
-  // Keyboard escape
+  // Keyboard escape & admin shortcut (Shift + L)
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeModal(successModal);
       closeModal(leadsModal);
     }
+    if (e.shiftKey && (e.key === 'L' || e.key === 'l')) {
+      renderLeadsTable();
+      openModal(leadsModal);
+    }
   });
+
+  // ==========================================
+  // Social Proof Toast Popups (Interval: 15s)
+  // ==========================================
+  const toast = document.getElementById('socialProofToast');
+  const toastMessage = document.getElementById('toastMessage');
+  const toastTime = document.getElementById('toastTime');
+  const toastCloseBtn = document.getElementById('toastCloseBtn');
+
+  const numbersList = [7, 13, 9, 14, 8, 16, 11, 15, 12, 18, 6, 21];
+  const templates = [
+    '<strong>{N} pessoas</strong> acabaram de concluir sua participação!',
+    '<strong>{N} pessoas</strong> acabam de concluir sua participação!',
+    '<strong>{N} traders</strong> acabaram de garantir vaga no sorteio!',
+    '<strong>{N} pessoas</strong> acabaram de se cadastrar para a Superlive!'
+  ];
+  const timesList = ['agora mesmo', 'há 12 segundos', 'há 28 segundos', 'há 45 segundos'];
+
+  let lastNumber = null;
+  let toastHideTimer = null;
+
+  function getRandomItem(arr, exclude) {
+    let item;
+    do {
+      item = arr[Math.floor(Math.random() * arr.length)];
+    } while (item === exclude && arr.length > 1);
+    return item;
+  }
+
+  function showSocialProof() {
+    if (!toast || !toastMessage) return;
+
+    const num = getRandomItem(numbersList, lastNumber);
+    lastNumber = num;
+
+    const template = getRandomItem(templates);
+    const timeText = getRandomItem(timesList);
+
+    toastMessage.innerHTML = template.replace('{N}', num);
+    if (toastTime) toastTime.textContent = timeText;
+
+    toast.classList.add('is-visible');
+
+    // Fica visível por 5 segundos
+    if (toastHideTimer) clearTimeout(toastHideTimer);
+    toastHideTimer = setTimeout(() => {
+      hideSocialProof();
+    }, 5000);
+  }
+
+  function hideSocialProof() {
+    if (toast) toast.classList.remove('is-visible');
+  }
+
+  if (toastCloseBtn) {
+    toastCloseBtn.addEventListener('click', hideSocialProof);
+  }
+
+  // Primeiro popup aos 3 segundos, e depois exatamente a cada 15 segundos
+  setTimeout(() => {
+    showSocialProof();
+    setInterval(() => {
+      showSocialProof();
+    }, 15000);
+  }, 3000);
 
   // ==========================================
   // Leads Management Table & Export
