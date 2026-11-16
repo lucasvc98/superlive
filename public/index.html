@@ -752,6 +752,92 @@ html, body {
   pointer-events: none;
 }
 
+.modal-party-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 120, 0, 0.28) 0%, rgba(255, 95, 0, 0.05) 70%);
+  border: 1.5px solid rgba(255, 110, 0, 0.65);
+  box-shadow: 0 0 25px rgba(255, 95, 0, 0.5), inset 0 0 15px rgba(255, 120, 0, 0.25);
+  margin-bottom: 16px;
+}
+
+.party-emoji {
+  font-size: 2.1rem;
+  line-height: 1;
+}
+
+.celebration-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(1.25rem, 4.4vw, 1.55rem);
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  margin-bottom: 12px;
+  line-height: 1.25;
+  text-shadow: 0 0 16px rgba(255, 100, 0, 0.45);
+}
+
+.celebration-desc {
+  font-size: clamp(0.88rem, 2.8vw, 0.98rem);
+  color: #d1d5db;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+.celebration-desc strong {
+  color: #ff852e;
+  font-weight: 700;
+}
+
+.fire-icon {
+  margin-right: 4px;
+}
+
+/* Schedule Card (Glowing VIP Pass) */
+.modal-schedule-box {
+  background: rgba(22, 25, 34, 0.9);
+  border: 1.5px solid rgba(255, 100, 0, 0.55);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 0 18px rgba(255, 95, 0, 0.25), inset 0 0 12px rgba(255, 95, 0, 0.12);
+  text-align: center;
+}
+
+.schedule-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.schedule-icon {
+  font-size: 1.15rem;
+}
+
+.schedule-label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(0.96rem, 3.2vw, 1.15rem);
+  letter-spacing: 0.5px;
+  color: #ffffff;
+}
+
+.schedule-divider {
+  width: 65%;
+  height: 1px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, transparent, rgba(255, 120, 0, 0.45), transparent);
+}
+
 .modal-icon-badge {
   display: inline-flex;
   align-items: center;
@@ -1205,68 +1291,39 @@ html, body {
     <button type="button" class="toast-close" id="toastCloseBtn" aria-label="Fechar notificação">&times;</button>
   </div>
 
-  <!-- Success Modal -->
+    <!-- Success Modal -->
   <div id="successModal" class="modal-backdrop" aria-hidden="true">
     <div class="modal-card">
       <div class="modal-glow"></div>
-      <div class="modal-icon-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-          <path d="M20 6L9 17l-5-5"/>
-        </svg>
+      
+      <!-- Celebration Icon Badge -->
+      <div class="modal-party-badge">
+        <span class="party-emoji" aria-hidden="true">🎉</span>
       </div>
-      <h3 class="modal-title">INSCRIÇÃO CONFIRMADA! 🔥</h3>
-      <p class="modal-desc">
-        Parabéns, <strong id="successName">Trader</strong>! Seus dados foram validados com sucesso para o <strong>Sorteio Exclusivo</strong>.
+
+      <h3 class="modal-title celebration-title">PARABÉNS! VOCÊ ESTÁ DENTRO!</h3>
+
+      <p class="modal-desc celebration-desc">
+        <span class="fire-icon">🔥</span> Agora é só acompanhar a <strong>Super Live com PH</strong><br>
+        e ficar atento aos sorteios especiais ao vivo.
       </p>
-      <div class="modal-summary">
-        <div class="summary-row">
-          <span>WhatsApp:</span>
-          <strong id="successPhone">-</strong>
+
+      <!-- Event Schedule Badge (Ticket Style) -->
+      <div class="modal-schedule-box">
+        <div class="schedule-item">
+          <span class="schedule-icon">📅</span>
+          <span class="schedule-label">19 e 20/11</span>
         </div>
-        <div class="summary-row">
-          <span>E-mail:</span>
-          <strong id="successEmail">-</strong>
+        <div class="schedule-divider"></div>
+        <div class="schedule-item">
+          <span class="schedule-icon">⏰</span>
+          <span class="schedule-label">12h às 14h • 20h às 22h</span>
         </div>
       </div>
-      <p class="modal-notice">
-        Fique atento ao WhatsApp informado para acompanhar a live e conferir o resultado ao vivo!
-      </p>
+
       <button type="button" id="closeSuccessBtn" class="btn-modal-action">
         CONCLUIR PARTICIPAÇÃO
       </button>
-    </div>
-  </div>
-
-  <!-- Admin Leads Modal -->
-  <div id="leadsModal" class="modal-backdrop" aria-hidden="true">
-    <div class="modal-card leads-card">
-      <div class="leads-header">
-        <h3>Leads Cadastrados (<span id="totalLeadsCount">0</span>)</h3>
-        <button type="button" id="closeLeadsBtn" class="btn-close-modal">&times;</button>
-      </div>
-      <div class="leads-body">
-        <div class="leads-table-container">
-          <table class="leads-table">
-            <thead>
-              <tr>
-                <th>Data</th>
-                <th>Nome</th>
-                <th>WhatsApp</th>
-                <th>E-mail</th>
-              </tr>
-            </thead>
-            <tbody id="leadsTableBody">
-              <tr>
-                <td colspan="4" class="no-leads">Nenhum lead cadastrado ainda.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="leads-footer">
-        <button type="button" id="exportCsvBtn" class="btn-export">Exportar CSV</button>
-        <button type="button" id="clearLeadsBtn" class="btn-clear">Limpar Leads</button>
-      </div>
     </div>
   </div>
 
@@ -1498,9 +1555,9 @@ document.addEventListener('DOMContentLoaded', () => {
       saveLead(leadData);
 
       // Populate & open success modal
-      successName.textContent = leadData.name.split(' ')[0] || leadData.name;
-      successPhone.textContent = leadData.phone;
-      successEmail.textContent = leadData.email;
+      if (successName) successName.textContent = leadData.name.split(' ')[0] || leadData.name;
+      if (successPhone) successPhone.textContent = leadData.phone;
+      if (successEmail) successEmail.textContent = leadData.email;
       openModal(successModal);
 
       // Reset form

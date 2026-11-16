@@ -225,9 +225,9 @@ document.addEventListener('DOMContentLoaded', () => {
       saveLead(leadData);
 
       // Populate & open success modal
-      successName.textContent = leadData.name.split(' ')[0] || leadData.name;
-      successPhone.textContent = leadData.phone;
-      successEmail.textContent = leadData.email;
+      if (successName) successName.textContent = leadData.name.split(' ')[0] || leadData.name;
+      if (successPhone) successPhone.textContent = leadData.phone;
+      if (successEmail) successEmail.textContent = leadData.email;
       openModal(successModal);
 
       // Reset form
