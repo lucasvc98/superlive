@@ -9,7 +9,7 @@
 // Exemplo: 'https://script.google.com/macros/s/AKfycb.../exec'
 // Se deixar vazio, os dados serão salvos localmente e visualizados no botão inferior.
 // =========================================================================
-const GOOGLE_SHEETS_URL = '';
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbw8GLSTaVGt-0kGGMQy5OADlPBsXrm_flRiCiBuWe2FtHKu-QFlzBXFW2idX5TT378D4A/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('leadForm');
