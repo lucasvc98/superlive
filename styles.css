@@ -1,0 +1,918 @@
+/* ==========================================================================
+   SUPER LIVE COM PH - SORTEIO EXCLUSIVO
+   Exact 1:1 recreation of the trading landing page form with responsive layout
+   ========================================================================== */
+
+:root {
+  --color-primary: #ff6000;
+  --color-primary-light: #ff7e22;
+  --color-primary-dark: #dc3e00;
+  --color-primary-glow: rgba(255, 96, 0, 0.65);
+  
+  --color-bg-card: rgba(12, 13, 18, 0.96);
+  --color-card-border: rgba(255, 110, 0, 0.28);
+  
+  --color-input-bg: #161820;
+  --color-input-border: #262935;
+  --color-input-text: #ffffff;
+  --color-input-placeholder: #6a7082;
+  
+  --color-text-white: #ffffff;
+  --color-text-muted: #abb1bf;
+  --color-btn-text: #140701;
+  
+  --font-display: 'Kanit', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  --radius-card: 22px;
+  --radius-input: 10px;
+  --radius-btn: 14px;
+}
+
+/* Reset & Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background-color: #07080b;
+  color: var(--color-text-white);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.45;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   Background Styling
+   ========================================================================== */
+.bg-wrapper {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('assets/bg.jpg');
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  filter: contrast(104%) brightness(98%);
+  transform: scale(1.01);
+}
+
+.bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(7, 8, 11, 0.1) 0%, rgba(7, 8, 11, 0.45) 100%),
+              linear-gradient(180deg, rgba(7, 8, 11, 0.3) 0%, transparent 40%, rgba(7, 8, 11, 0.5) 100%);
+}
+
+/* Laser light streaks across bottom */
+.light-ray {
+  position: absolute;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ff7a00, #ff5000, transparent);
+  filter: blur(2px);
+  opacity: 0.65;
+}
+
+.light-ray-left {
+  bottom: 12%;
+  left: -10%;
+  width: 45%;
+  transform: rotate(-16deg);
+  box-shadow: 0 0 25px 5px rgba(255, 100, 0, 0.5);
+}
+
+.light-ray-right {
+  bottom: 16%;
+  right: -5%;
+  width: 50%;
+  transform: rotate(18deg);
+  box-shadow: 0 0 30px 6px rgba(255, 110, 0, 0.6);
+}
+
+/* ==========================================================================
+   Page & Card Layout
+   ========================================================================== */
+.page-container {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(14px, 2.5vh, 28px) clamp(14px, 3vw, 24px);
+}
+
+/* Glowing aura hugging card edges */
+.card-glow-aura {
+  position: absolute;
+  width: min(92vw, 510px);
+  height: 540px;
+  background: radial-gradient(circle at 0% 50%, rgba(255, 100, 0, 0.18) 0%, transparent 60%),
+              radial-gradient(circle at 100% 50%, rgba(255, 90, 0, 0.16) 0%, transparent 60%),
+              radial-gradient(circle at 50% 100%, rgba(255, 80, 0, 0.15) 0%, transparent 70%);
+  filter: blur(35px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.form-card {
+  position: relative;
+  width: 100%;
+  max-width: 502px;
+  background: var(--color-bg-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-card);
+  padding: clamp(18px, 3.4vw, 28px) clamp(18px, 4vw, 36px);
+  box-shadow: 
+    0 0 0 1px rgba(255, 120, 0, 0.1),
+    0 15px 45px rgba(0, 0, 0, 0.88),
+    0 0 45px rgba(255, 85, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Glowing edge highlights at left and right borders matching original image */
+.form-card::after {
+  content: '';
+  position: absolute;
+  top: 15%;
+  bottom: 15%;
+  left: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 120, 0, 0.7) 40%, rgba(255, 150, 50, 0.9) 50%, rgba(255, 120, 0, 0.7) 60%, transparent 100%);
+  filter: drop-shadow(0 0 8px rgba(255, 120, 0, 0.8));
+  pointer-events: none;
+}
+
+/* Specular top highlight */
+.form-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 160, 60, 0.5), transparent);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Header Elements (Exact Match)
+   ========================================================================== */
+
+/* Top Pill Badge */
+.badge-container {
+  margin-bottom: clamp(10px, 1.6vw, 14px);
+}
+
+.pill-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px clamp(18px, 3.8vw, 26px);
+  border: 1px solid rgba(255, 110, 0, 0.85);
+  border-radius: 9999px;
+  background: rgba(18, 19, 26, 0.65);
+  box-shadow: 0 0 10px rgba(255, 100, 0, 0.25);
+}
+
+.pill-badge span {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(10.5px, 2.2vw, 12px);
+  letter-spacing: 2.2px;
+  color: #ff9d42;
+  text-transform: uppercase;
+}
+
+/* Main Title Section */
+.title-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: clamp(8px, 2vw, 14px);
+  margin-bottom: clamp(6px, 1.2vw, 10px);
+}
+
+.title-line {
+  flex: 1;
+  height: 1.5px;
+  min-width: 14px;
+}
+
+.title-line-left {
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 98, 0, 0.3) 30%, #ff6000 100%);
+}
+
+.title-line-right {
+  background: linear-gradient(90deg, #ff6000 0%, rgba(255, 98, 0, 0.3) 70%, transparent 100%);
+}
+
+.main-title {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(1.4rem, 5.2vw, 1.95rem);
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.title-white {
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.title-orange {
+  color: #ff6000;
+  text-shadow: 0 0 16px rgba(255, 96, 0, 0.5);
+}
+
+/* Sub-headline 1 (Trophy + 10 TRADERS VÃO GANHAR) */
+.sub-headline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: clamp(8px, 1.4vw, 11px);
+}
+
+.trophy-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(18px, 3.4vw, 22px);
+  height: clamp(18px, 3.4vw, 22px);
+  filter: drop-shadow(0 0 8px rgba(255, 180, 0, 0.6));
+}
+
+.trophy-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.sub-headline-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(0.92rem, 3vw, 1.12rem);
+  letter-spacing: 0.8px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+/* Highlight Box: BANCA ALAVANCADA */
+.highlight-box {
+  width: 100%;
+  max-width: 410px;
+  margin: 0 auto clamp(8px, 1.4vw, 11px);
+  padding: clamp(6px, 1.4vw, 9px) clamp(18px, 4.5vw, 32px);
+  border: 1.8px solid var(--color-primary);
+  border-radius: 9999px; /* Stadium pill shape */
+  background: rgba(18, 14, 12, 0.4);
+  box-shadow: 
+    0 0 16px var(--color-primary-glow),
+    inset 0 0 12px rgba(255, 98, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.highlight-text {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(1.25rem, 4.8vw, 1.75rem);
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.35),
+    0 0 20px rgba(255, 100, 0, 0.5);
+  white-space: nowrap;
+}
+
+/* Subtitle 2: E O PH VAI ALAVANCAR AO VIVO [PLAY] */
+.live-callout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: clamp(10px, 1.8vw, 14px);
+  font-family: var(--font-display);
+  font-size: clamp(0.85rem, 2.8vw, 1.05rem);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.callout-white {
+  color: #ffffff;
+}
+
+.callout-orange {
+  color: #ff6000;
+}
+
+.play-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(20px, 3.8vw, 24px);
+  height: clamp(20px, 3.8vw, 24px);
+  border-radius: 50%;
+  background: #ff6000;
+  box-shadow: 0 0 10px rgba(255, 96, 0, 0.65);
+  margin-left: 2px;
+}
+
+.play-svg {
+  width: 58%;
+  height: 58%;
+  color: #ffffff;
+  margin-left: 1.5px;
+}
+
+/* Instructions Paragraph */
+.form-instructions {
+  color: var(--color-text-muted);
+  font-size: clamp(0.76rem, 2.2vw, 0.85rem);
+  font-weight: 400;
+  line-height: 1.35;
+  margin-bottom: clamp(12px, 2.2vw, 16px);
+  white-space: normal;
+  max-width: 100%;
+}
+
+/* ==========================================================================
+   Form Fields & Controls
+   ========================================================================== */
+.lead-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.6vw, 11px);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  position: relative;
+}
+
+.input-label {
+  font-size: clamp(0.76rem, 2.2vw, 0.84rem);
+  font-weight: 500;
+  color: #ffffff;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.asterisk {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: var(--color-input-bg);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-input);
+  transition: all 0.25s ease;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: #ff6000;
+  pointer-events: none;
+  transition: color 0.25s ease;
+}
+
+.input-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.input-wrapper input {
+  width: 100%;
+  height: clamp(42px, 5.2vh, 47px);
+  padding: 0 14px 0 44px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-input);
+  color: var(--color-input-text);
+  font-family: var(--font-body);
+  font-size: clamp(0.86rem, 2.5vw, 0.93rem);
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.input-wrapper input::placeholder {
+  color: var(--color-input-placeholder);
+  opacity: 1;
+}
+
+/* Input Focus States */
+.input-wrapper:focus-within {
+  border-color: var(--color-primary);
+  background: #191c26;
+  box-shadow: 
+    0 0 0 1px rgba(255, 96, 0, 0.35),
+    0 0 14px rgba(255, 96, 0, 0.35);
+}
+
+.input-wrapper:focus-within .input-icon {
+  color: #ff7d22;
+}
+
+/* Error State */
+.form-group.has-error .input-wrapper {
+  border-color: #ff334b;
+  box-shadow: 0 0 10px rgba(255, 51, 75, 0.3);
+}
+
+.error-msg {
+  display: none;
+  font-size: 0.72rem;
+  color: #ff4d64;
+  margin-top: 3px;
+  text-align: left;
+  padding-left: 2px;
+}
+
+.form-group.has-error .error-msg {
+  display: block;
+}
+
+/* ==========================================================================
+   Submit Button (Exact Match)
+   ========================================================================== */
+.btn-submit {
+  position: relative;
+  width: 100%;
+  height: clamp(46px, 5.8vh, 52px);
+  margin-top: clamp(6px, 1.4vw, 10px);
+  border: none;
+  border-radius: var(--radius-btn);
+  background: linear-gradient(180deg, #ff7e00 0%, #ff5200 48%, #e04000 100%);
+  color: var(--color-btn-text);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(0.92rem, 3.2vw, 1.06rem);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 4px 22px rgba(255, 95, 0, 0.65),
+    0 0 14px rgba(255, 95, 0, 0.38),
+    inset 0 1px 1px rgba(255, 255, 255, 0.45);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  user-select: none;
+  overflow: hidden;
+}
+
+.btn-submit:hover {
+  filter: brightness(1.08);
+  box-shadow: 
+    0 6px 28px rgba(255, 110, 0, 0.8),
+    0 0 20px rgba(255, 100, 0, 0.48),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  transform: translateY(-1.5px);
+}
+
+.btn-submit:active {
+  transform: translateY(1px);
+  box-shadow: 
+    0 2px 14px rgba(255, 95, 0, 0.5),
+    0 0 10px rgba(255, 95, 0, 0.3);
+  filter: brightness(0.96);
+}
+
+.btn-submit:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Spinner during submission */
+.btn-spinner {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(20, 7, 1, 0.3);
+  border-top-color: #140701;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-left: 8px;
+}
+
+.btn-submit.loading .btn-spinner {
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Leads shortcut */
+.leads-shortcut {
+  margin-top: 10px;
+  opacity: 0.35;
+  transition: opacity 0.25s ease;
+}
+
+.leads-shortcut:hover {
+  opacity: 0.9;
+}
+
+.link-leads {
+  background: transparent;
+  border: none;
+  color: #72788c;
+  font-size: 0.72rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.2s ease;
+}
+
+.link-leads:hover {
+  color: #ff7d22;
+}
+
+.leads-icon {
+  width: 13px;
+  height: 13px;
+}
+
+/* ==========================================================================
+   Modals (Success & Leads List)
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: #0f1017;
+  border: 1px solid rgba(255, 110, 0, 0.35);
+  border-radius: 20px;
+  padding: 30px 24px;
+  box-shadow: 0 0 40px rgba(255, 90, 0, 0.2), 0 20px 50px rgba(0, 0, 0, 0.9);
+  text-align: center;
+  transform: scale(0.92);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.modal-backdrop.is-open .modal-card {
+  transform: scale(1);
+}
+
+.modal-glow {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(255, 100, 0, 0.35) 0%, transparent 70%);
+  filter: blur(25px);
+  pointer-events: none;
+}
+
+.modal-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff7e00, #e04000);
+  box-shadow: 0 0 25px rgba(255, 95, 0, 0.6);
+  margin-bottom: 18px;
+  color: #ffffff;
+}
+
+.modal-icon-badge svg {
+  width: 32px;
+  height: 32px;
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.45rem;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.modal-desc {
+  font-size: 0.92rem;
+  color: #c4c8d4;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+.modal-desc strong {
+  color: #ff7e22;
+}
+
+.modal-summary {
+  background: rgba(22, 24, 32, 0.8);
+  border: 1px solid #292d3b;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  padding: 4px 0;
+  color: #9da3b4;
+}
+
+.summary-row strong {
+  color: #ffffff;
+  word-break: break-all;
+}
+
+.modal-notice {
+  font-size: 0.8rem;
+  color: #8c92a4;
+  line-height: 1.4;
+  margin-bottom: 22px;
+}
+
+.btn-modal-action {
+  width: 100%;
+  height: 48px;
+  background: linear-gradient(180deg, #ff7e00 0%, #ff5200 100%);
+  border: none;
+  border-radius: 12px;
+  color: #140701;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(255, 95, 0, 0.55);
+  transition: all 0.2s ease;
+}
+
+.btn-modal-action:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 6px 24px rgba(255, 110, 0, 0.7);
+}
+
+/* Leads Table Modal */
+.leads-card {
+  max-width: 680px;
+  padding: 24px;
+  text-align: left;
+}
+
+.leads-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #232734;
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+}
+
+.leads-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+
+.btn-close-modal {
+  background: transparent;
+  border: none;
+  color: #949ab0;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.btn-close-modal:hover {
+  color: #ff6000;
+}
+
+.leads-table-container {
+  max-height: 320px;
+  overflow-y: auto;
+  border: 1px solid #222634;
+  border-radius: 8px;
+}
+
+.leads-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.leads-table th {
+  background: #171922;
+  color: #ff7e22;
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 12px;
+  position: sticky;
+  top: 0;
+}
+
+.leads-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #1c202c;
+  color: #d1d5db;
+}
+
+.leads-table tr:hover {
+  background: rgba(255, 96, 0, 0.05);
+}
+
+.no-leads {
+  text-align: center !important;
+  color: #6c7283 !important;
+  padding: 30px !important;
+}
+
+.leads-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.btn-export, .btn-clear {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-export {
+  background: #ff6000;
+  color: #140701;
+  border: none;
+}
+
+.btn-export:hover {
+  background: #ff7e22;
+}
+
+.btn-clear {
+  background: transparent;
+  color: #ff4d64;
+  border: 1px solid rgba(255, 77, 100, 0.4);
+}
+
+.btn-clear:hover {
+  background: rgba(255, 77, 100, 0.1);
+}
+
+/* ==========================================================================
+   Responsive Rules for Cell Phones / Tablets without Deformation
+   ========================================================================== */
+
+/* Very small screens (320px - 380px) */
+@media (max-width: 380px) {
+  .page-container {
+    padding: 10px 8px;
+  }
+  
+  .form-card {
+    padding: 16px 12px;
+    border-radius: 16px;
+  }
+  
+  .title-line {
+    min-width: 6px;
+  }
+  
+  .main-title {
+    gap: 4px;
+    font-size: 1.25rem;
+  }
+  
+  .highlight-text {
+    font-size: 1.15rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .live-callout {
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+  }
+  
+  .btn-submit {
+    font-size: 0.88rem;
+    letter-spacing: 0;
+  }
+}
+
+/* Standard Mobile & Tablet adjustments */
+@media (max-width: 600px) {
+  .bg-image {
+    background-position: center bottom;
+    background-size: cover;
+  }
+
+  .card-glow-aura {
+    width: 96vw;
+  }
+
+  .form-instructions {
+    max-width: 100%;
+  }
+
+  /* Keep inputs easy to tap without zoom triggering on iOS */
+  .input-wrapper input {
+    font-size: 16px;
+  }
+}
+
+/* Large Screens (preserve exact layout from reference) */
+@media (min-width: 1025px) {
+  .form-card {
+    max-width: 502px;
+  }
+}

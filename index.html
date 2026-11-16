@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Super Live com PH - Sorteio Exclusivo</title>
+  
+  <!-- Google Fonts: Kanit (Bold & Italic styles for aggressive trading look), Inter (UI & Inputs) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Kanit:ital,wght@0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Background Ambience & Lighting Streaks -->
+  <div class="bg-wrapper">
+    <div class="bg-image"></div>
+    <div class="bg-overlay"></div>
+    <div class="light-ray light-ray-left"></div>
+    <div class="light-ray light-ray-right"></div>
+  </div>
+
+  <main class="page-container">
+    <div class="card-glow-aura"></div>
+    
+    <!-- Central Form Card -->
+    <div class="form-card">
+      
+      <!-- Top Pill Badge -->
+      <div class="badge-container">
+        <div class="pill-badge">
+          <span>SUPER LIVE COM PH</span>
+        </div>
+      </div>
+
+      <!-- Main Title with Decorative Gradient Lines -->
+      <div class="title-section">
+        <div class="title-line title-line-left"></div>
+        <h1 class="main-title">
+          <span class="title-white">SORTEIO</span>
+          <span class="title-orange">EXCLUSIVO</span>
+        </h1>
+        <div class="title-line title-line-right"></div>
+      </div>
+
+      <!-- Subtitle 1: 10 TRADERS VÃO GANHAR -->
+      <div class="sub-headline">
+        <span class="trophy-badge" aria-hidden="true">
+          <!-- Golden Trophy SVG -->
+          <svg viewBox="0 0 24 24" class="trophy-svg">
+            <path fill="#f59e0b" d="M19 4h-2V3a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v1H5a3 3 0 0 0-3 3v1a5 5 0 0 0 4.54 4.97A7 7 0 0 0 11 16.92V19H9a1 1 0 0 0-1 1v2h8v-2a1 1 0 0 0-1-1h-2v-2.08a7 7 0 0 0 4.46-3.95A5 5 0 0 0 22 8V7a3 3 0 0 0-3-3zM4 8V7a1 1 0 0 1 1-1h2v3.74A3 3 0 0 1 4 8zm16 0a3 3 0 0 1-3 1.74V6h2a1 1 0 0 1 1 1z"/>
+            <path fill="#fbbf24" d="M12 4v11.9A5 5 0 0 1 7.2 11V4h4.8z"/>
+          </svg>
+        </span>
+        <span class="sub-headline-text">10 TRADERS VÃO GANHAR</span>
+      </div>
+
+      <!-- Glowing Neon Box: BANCA ALAVANCADA -->
+      <div class="highlight-box">
+        <span class="highlight-text">BANCA ALAVANCADA</span>
+      </div>
+
+      <!-- Subtitle 2: E O PH VAI ALAVANCAR AO VIVO [PLAY] -->
+      <div class="live-callout">
+        <span class="callout-white">E O PH VAI ALAVANCAR</span>
+        <span class="callout-orange">AO VIVO</span>
+        <div class="play-badge" aria-label="Ao Vivo">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="play-svg">
+            <path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l11-6.86a1 1 0 0 0 0-1.68l-11-6.86A1 1 0 0 0 8 5.14z"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Instruction Text -->
+      <p class="form-instructions">
+        Garanta sua participação no sorteio. Preencha os dados abaixo:
+      </p>
+
+      <!-- Form -->
+      <form id="leadForm" class="lead-form" novalidate>
+        
+        <!-- Field 1: Nome completo -->
+        <div class="form-group" id="group-name">
+          <label for="name" class="input-label">
+            Nome completo<span class="asterisk">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon user-icon">
+              <!-- User icon SVG -->
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+              </svg>
+            </span>
+            <input 
+              type="text" 
+              id="name" 
+              name="name" 
+              placeholder="Seu nome completo" 
+              autocomplete="name"
+              required 
+            />
+          </div>
+          <span class="error-msg" id="error-name"></span>
+        </div>
+
+        <!-- Field 2: WhatsApp -->
+        <div class="form-group" id="group-phone">
+          <label for="phone" class="input-label">
+            WhatsApp<span class="asterisk">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon whatsapp-icon">
+              <!-- WhatsApp Icon SVG exact -->
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.17-.25.25-.41.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.84-.86 2.05 0 1.21.88 2.38 1 2.55.12.17 1.74 2.65 4.21 3.72.59.25 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.07-.1-.23-.17-.48-.29z"/>
+              </svg>
+            </span>
+            <input 
+              type="tel" 
+              id="phone" 
+              name="phone" 
+              placeholder="(00) 00000-0000" 
+              autocomplete="tel"
+              maxlength="15"
+              required 
+            />
+          </div>
+          <span class="error-msg" id="error-phone"></span>
+        </div>
+
+        <!-- Field 3: E-mail -->
+        <div class="form-group" id="group-email">
+          <label for="email" class="input-label">
+            E-mail<span class="asterisk">*</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-icon email-icon">
+              <!-- Mail Icon SVG -->
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4.2-8 5-8-5V6.4l8 5 8-5v1.8z"/>
+              </svg>
+            </span>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              placeholder="seuemail@exemplo.com" 
+              autocomplete="email"
+              required 
+            />
+          </div>
+          <span class="error-msg" id="error-email"></span>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="submitBtn" class="btn-submit">
+          <span class="btn-text">QUERO PARTICIPAR DO SORTEIO &gt;&gt;</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
+
+      </form>
+
+      <!-- Discreet Leads Modal Trigger (bottom edge) -->
+      <div class="leads-shortcut">
+        <button type="button" id="openLeadsBtn" class="link-leads" title="Ver Leads Cadastrados">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="leads-icon">
+            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7Z"/>
+          </svg>
+          <span id="leadsCounter">0</span> inscritos
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-glow"></div>
+      <div class="modal-icon-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+      </div>
+      <h3 class="modal-title">INSCRIÇÃO CONFIRMADA! 🔥</h3>
+      <p class="modal-desc">
+        Parabéns, <strong id="successName">Trader</strong>! Seus dados foram validados com sucesso para o <strong>Sorteio Exclusivo</strong>.
+      </p>
+      <div class="modal-summary">
+        <div class="summary-row">
+          <span>WhatsApp:</span>
+          <strong id="successPhone">-</strong>
+        </div>
+        <div class="summary-row">
+          <span>E-mail:</span>
+          <strong id="successEmail">-</strong>
+        </div>
+      </div>
+      <p class="modal-notice">
+        Fique atento ao WhatsApp informado para acompanhar a live e conferir o resultado ao vivo!
+      </p>
+      <button type="button" id="closeSuccessBtn" class="btn-modal-action">
+        CONCLUIR PARTICIPAÇÃO
+      </button>
+    </div>
+  </div>
+
+  <!-- Admin Leads Modal -->
+  <div id="leadsModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card leads-card">
+      <div class="leads-header">
+        <h3>Leads Cadastrados (<span id="totalLeadsCount">0</span>)</h3>
+        <button type="button" id="closeLeadsBtn" class="btn-close-modal">&times;</button>
+      </div>
+      <div class="leads-body">
+        <div class="leads-table-container">
+          <table class="leads-table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Nome</th>
+                <th>WhatsApp</th>
+                <th>E-mail</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody">
+              <tr>
+                <td colspan="4" class="no-leads">Nenhum lead cadastrado ainda.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="leads-footer">
+        <button type="button" id="exportCsvBtn" class="btn-export">Exportar CSV</button>
+        <button type="button" id="clearLeadsBtn" class="btn-clear">Limpar Leads</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

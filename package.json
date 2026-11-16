@@ -1,0 +1,9 @@
+{
+  "name": "super-live-ph",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing Page Sorteio Exclusivo Super Live PH",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
