@@ -1,4 +1,4 @@
-# Super Live com PH - Sorteio Exclusivo 🔥
+# Superlive - Sorteio Exclusivo 🔥
 
 Landing page de alta conversão para captura de leads e sorteio ao vivo, com layout escuro, efeitos de iluminação neon em laranja e design responsivo otimizado para celulares e desktops.
 
