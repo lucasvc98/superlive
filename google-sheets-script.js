@@ -4,18 +4,18 @@
  * PASSO A PASSO PARA CONFIGURAR:
  * 1. Abra o Google Sheets (planilhas.google.com) e crie uma nova planilha.
  * 2. Na primeira linha (Linha 1), crie as colunas:
- *    A1: Data/Hora | B1: Nome | C1: WhatsApp | D1: E-mail
+ *    A1: Data/Hora | B1: Nome | C1: WhatsApp | D1: E-mail | E1: Preparado?
  * 3. No menu superior, clique em: Extensões > Apps Script.
  * 4. Apague todo o código que estiver lá e cole este código abaixo.
  * 5. Clique no ícone de Salvar (💾).
- * 6. Clique no botão azul "Implantar" (Deploy) > "Nova implantação" (New deployment).
+ * 6. Clique no botão azul "Implantar" (Deploy) > "Gerenciar implantações" ou "Nova implantação".
+ *    Se já tiver uma implantação, basta editar para a versão mais recente!
  * 7. No ícone de engrenagem ⚙️ (Selecionar tipo), escolha: "App da Web" (Web app).
  * 8. Preencha as opções:
  *    - Descrição: Salvar Leads Sorteio
  *    - Executar como: "Eu" (seu e-mail)
  *    - Quem pode acessar: "Qualquer pessoa" (Anyone) -> [MUITO IMPORTANTE!]
  * 9. Clique em "Implantar" e autorize o acesso com sua conta Google.
- * 10. Copie o link do "App da Web" (termina com /exec) e cole na variável GOOGLE_SHEETS_URL no arquivo script.js!
  */
 
 function doPost(e) {
@@ -26,12 +26,13 @@ function doPost(e) {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     var data = JSON.parse(e.postData.contents);
 
-    // Linha a ser adicionada na planilha
+    // Linha a ser adicionada na planilha (incluindo a resposta da pergunta)
     var row = [
       data.date || new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
       data.name || '',
       data.phone || '',
-      data.email || ''
+      data.email || '',
+      data.prepared || 'Sim'
     ];
 
     sheet.appendRow(row);

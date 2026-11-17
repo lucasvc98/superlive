@@ -182,11 +182,16 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.disabled = true;
     submitBtn.classList.add('loading');
 
+    // Get selected option for "Está preparado?"
+    const preparedRadio = form.querySelector('input[name="prepared"]:checked');
+    const preparedVal = preparedRadio ? preparedRadio.value : 'Sim';
+
     const leadData = {
       id: 'lead_' + Date.now(),
       name: nameInput.value.trim(),
       phone: phoneInput.value.trim(),
       email: emailInput.value.trim(),
+      prepared: preparedVal,
       createdAt: new Date().toISOString()
     };
 
@@ -202,7 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
               date: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
               name: leadData.name,
               phone: leadData.phone,
-              email: leadData.email
+              email: leadData.email,
+              prepared: leadData.prepared
             })
           });
           console.info('Lead enviado para o Google Sheets com sucesso!');
@@ -381,6 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <td><strong>${escapeHtml(lead.name)}</strong></td>
           <td>${escapeHtml(lead.phone)}</td>
           <td>${escapeHtml(lead.email)}</td>
+          <td><span style="color:#ff852e;font-weight:700;">${escapeHtml(lead.prepared || 'Sim')}</span></td>
         </tr>
       `;
     }).join('');
@@ -400,12 +407,13 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const headers = ['Data', 'Nome', 'WhatsApp', 'Email'];
+    const headers = ['Data', 'Nome', 'WhatsApp', 'Email', 'Preparado'];
     const rows = leads.map(l => [
       new Date(l.createdAt).toLocaleString('pt-BR'),
       `"${l.name.replace(/"/g, '""')}"`,
       `"${l.phone}"`,
-      `"${l.email}"`
+      `"${l.email}"`,
+      `"${l.prepared || 'Sim'}"`
     ]);
 
     const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');

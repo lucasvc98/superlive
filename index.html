@@ -500,6 +500,104 @@ html, body {
 }
 
 /* ==========================================================================
+   Question / Prepared Field
+   ========================================================================== */
+.question-label {
+  font-size: clamp(0.76rem, 2.2vw, 0.84rem);
+  font-weight: 600;
+  color: #f3f4f6;
+  line-height: 1.35;
+  margin-bottom: 6px;
+  text-align: left;
+}
+
+.options-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.option-pill {
+  flex: 1;
+  cursor: pointer;
+  user-select: none;
+  min-width: 0;
+  position: relative;
+}
+
+.option-pill input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.option-pill-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: clamp(38px, 4.8vh, 44px);
+  padding: 0 4px;
+  background: var(--color-input-bg);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-input);
+  transition: all 0.22s ease;
+}
+
+.option-pill-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(0.76rem, 2.4vw, 0.88rem);
+  color: #c2c7d4;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  transition: color 0.22s ease;
+}
+
+.option-radio-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.5px solid #5a6072;
+  transition: all 0.22s ease;
+  flex-shrink: 0;
+}
+
+/* Hover state */
+.option-pill:hover .option-pill-content {
+  border-color: rgba(255, 96, 0, 0.45);
+  background: #191c26;
+}
+
+.option-pill:hover .option-pill-text {
+  color: #ffffff;
+}
+
+/* Checked / Selected state */
+.option-pill input[type="radio"]:checked + .option-pill-content {
+  border-color: var(--color-primary);
+  background: rgba(255, 96, 0, 0.15);
+  box-shadow: 
+    0 0 0 1px rgba(255, 96, 0, 0.45),
+    0 0 12px rgba(255, 96, 0, 0.35);
+}
+
+.option-pill input[type="radio"]:checked + .option-pill-content .option-pill-text {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255, 120, 0, 0.5);
+}
+
+.option-pill input[type="radio"]:checked + .option-pill-content .option-radio-dot {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 6px var(--color-primary);
+}
+
+/* ==========================================================================
    Submit Button (Exact Match)
    ========================================================================== */
 .btn-submit {
@@ -1258,6 +1356,39 @@ html, body {
           <span class="error-msg" id="error-email"></span>
         </div>
 
+        
+        <!-- Field 4: Pergunta Interativa (Está preparado?) -->
+        <div class="form-group" id="group-prepared">
+          <label class="input-label question-label">
+            Está preparado para participar da live? Sua chance é agora!<span class="asterisk">*</span>
+          </label>
+          <div class="options-container" role="radiogroup" aria-label="Está preparado para participar da live?">
+            <label class="option-pill">
+              <input type="radio" name="prepared" value="Sim" checked />
+              <span class="option-pill-content">
+                <span class="option-radio-dot"></span>
+                <span class="option-pill-text">Sim</span>
+              </span>
+            </label>
+
+            <label class="option-pill">
+              <input type="radio" name="prepared" value="Claro" />
+              <span class="option-pill-content">
+                <span class="option-radio-dot"></span>
+                <span class="option-pill-text">Claro</span>
+              </span>
+            </label>
+
+            <label class="option-pill">
+              <input type="radio" name="prepared" value="Vamo nessa" />
+              <span class="option-pill-content">
+                <span class="option-radio-dot"></span>
+                <span class="option-pill-text">Vamo nessa</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
         <!-- Submit Button -->
         <button type="submit" id="submitBtn" class="btn-submit">
           <span class="btn-text">QUERO PARTICIPAR DO SORTEIO &gt;&gt;</span>
@@ -1512,11 +1643,16 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.disabled = true;
     submitBtn.classList.add('loading');
 
+    // Get selected option for "Está preparado?"
+    const preparedRadio = form.querySelector('input[name="prepared"]:checked');
+    const preparedVal = preparedRadio ? preparedRadio.value : 'Sim';
+
     const leadData = {
       id: 'lead_' + Date.now(),
       name: nameInput.value.trim(),
       phone: phoneInput.value.trim(),
       email: emailInput.value.trim(),
+      prepared: preparedVal,
       createdAt: new Date().toISOString()
     };
 
@@ -1532,7 +1668,8 @@ document.addEventListener('DOMContentLoaded', () => {
               date: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
               name: leadData.name,
               phone: leadData.phone,
-              email: leadData.email
+              email: leadData.email,
+              prepared: leadData.prepared
             })
           });
           console.info('Lead enviado para o Google Sheets com sucesso!');
@@ -1711,6 +1848,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <td><strong>${escapeHtml(lead.name)}</strong></td>
           <td>${escapeHtml(lead.phone)}</td>
           <td>${escapeHtml(lead.email)}</td>
+          <td><span style="color:#ff852e;font-weight:700;">${escapeHtml(lead.prepared || 'Sim')}</span></td>
         </tr>
       `;
     }).join('');
@@ -1730,12 +1868,13 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const headers = ['Data', 'Nome', 'WhatsApp', 'Email'];
+    const headers = ['Data', 'Nome', 'WhatsApp', 'Email', 'Preparado'];
     const rows = leads.map(l => [
       new Date(l.createdAt).toLocaleString('pt-BR'),
       `"${l.name.replace(/"/g, '""')}"`,
       `"${l.phone}"`,
-      `"${l.email}"`
+      `"${l.email}"`,
+      `"${l.prepared || 'Sim'}"`
     ]);
 
     const csvContent = '\uFEFF' + [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');

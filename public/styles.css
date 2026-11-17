@@ -487,6 +487,104 @@ html, body {
 }
 
 /* ==========================================================================
+   Question / Prepared Field
+   ========================================================================== */
+.question-label {
+  font-size: clamp(0.76rem, 2.2vw, 0.84rem);
+  font-weight: 600;
+  color: #f3f4f6;
+  line-height: 1.35;
+  margin-bottom: 6px;
+  text-align: left;
+}
+
+.options-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.option-pill {
+  flex: 1;
+  cursor: pointer;
+  user-select: none;
+  min-width: 0;
+  position: relative;
+}
+
+.option-pill input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.option-pill-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: clamp(38px, 4.8vh, 44px);
+  padding: 0 4px;
+  background: var(--color-input-bg);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-input);
+  transition: all 0.22s ease;
+}
+
+.option-pill-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(0.76rem, 2.4vw, 0.88rem);
+  color: #c2c7d4;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  transition: color 0.22s ease;
+}
+
+.option-radio-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.5px solid #5a6072;
+  transition: all 0.22s ease;
+  flex-shrink: 0;
+}
+
+/* Hover state */
+.option-pill:hover .option-pill-content {
+  border-color: rgba(255, 96, 0, 0.45);
+  background: #191c26;
+}
+
+.option-pill:hover .option-pill-text {
+  color: #ffffff;
+}
+
+/* Checked / Selected state */
+.option-pill input[type="radio"]:checked + .option-pill-content {
+  border-color: var(--color-primary);
+  background: rgba(255, 96, 0, 0.15);
+  box-shadow: 
+    0 0 0 1px rgba(255, 96, 0, 0.45),
+    0 0 12px rgba(255, 96, 0, 0.35);
+}
+
+.option-pill input[type="radio"]:checked + .option-pill-content .option-pill-text {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255, 120, 0, 0.5);
+}
+
+.option-pill input[type="radio"]:checked + .option-pill-content .option-radio-dot {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 6px var(--color-primary);
+}
+
+/* ==========================================================================
    Submit Button (Exact Match)
    ========================================================================== */
 .btn-submit {
